@@ -13,8 +13,8 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/conf.d/:/etc/nginx/conf.d/
       - ./laravel-app/project:/var/www/html
-    depends_on:
-      - php-fpm
+#    depends_on:
+#      - php-fpm
     networks:
       - web-network
 
@@ -24,11 +24,11 @@ services:
     container_name: ${APP_NAME}-php-${PHP_VER_FPM}
     restart: unless-stopped
     image: ${APP_NAME}-php-fpm${PHP_VER_FPM}:${APP_NAME}
-    working_dir: /var/www/html
+    working_dir: ${WORKING_DIR}
     environment:
       - "ENV_SUBSTITUTION_ENABLE=true"
       - "PHP_MEMORY_LIMIT=512M"
-      - "PHP_FPM_LISTEN=9004"
+      - "PHP_FPM_LISTEN=${PHP_FPM_LISTEN}"
       - "PHP_SESSION_GC_MAXLIFETIME=7200"
     expose:
       - "9090"
